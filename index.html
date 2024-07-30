@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Reviews - Dark Academia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Book Reviews</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tbr">TBR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="reviews.html">Reviews</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5 mb-5">
+        <h1 class="text-center mb-4">Book Reviews</h1>
+        <div class="review-form p-4 mb-5">
+            <form id="review-form">
+                <div class="form-group">
+                    <label for="title">Book Title:</label>
+                    <input type="text" id="title" class="form-control" placeholder="Enter book title" required>
+                </div>
+                <div class="form-group">
+                    <label for="author">Author:</label>
+                    <input type="text" id="author" class="form-control" placeholder="Enter author name" required>
+                </div>
+                <div class="form-group">
+                    <label for="pages">Number of Pages:</label>
+                    <input type="number" id="pages" class="form-control" placeholder="Enter number of pages" required>
+                </div>
+                <div class="form-group">
+                    <label for="summary">Summary (3 paragraphs):</label>
+                    <textarea id="summary" class="form-control" rows="5" placeholder="Write the summary here..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="thoughts">Personal Thoughts:</label>
+                    <textarea id="thoughts" class="form-control" rows="3" placeholder="Share your personal thoughts..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="quotes">Favorite Quotes:</label>
+                    <textarea id="quotes" class="form-control" rows="3" placeholder="Share your favorite quotes..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="cover">Book Cover:</label>
+                    <input type="file" id="cover" class="form-control-file" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Spiciness (Chili Peppers):</label>
+                    <div class="rating d-flex" id="spiciness-rating">
+                        <span class="chili" data-value="1">🌶️</span>
+                        <span class="chili" data-value="2">🌶️</span>
+                        <span class="chili" data-value="3">🌶️</span>
+                        <span class="chili" data-value="4">🌶️</span>
+                        <span class="chili" data-value="5">🌶️</span>
+                        <span class="chili" data-value="6">🌶️</span>
+                        <span class="chili" data-value="7">🌶️</span>
+                        <span class="chili" data-value="8">🌶️</span>
+                        <span class="chili" data-value="9">🌶️</span>
+                        <span class="chili" data-value="10">🌶️</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Rating (Stars):</label>
+                    <div class="rating d-flex" id="star-rating">
+                        <span class="star" data-value="1">⭐</span>
+                        <span class="star" data-value="2">⭐</span>
+                        <span class="star" data-value="3">⭐</span>
+                        <span class="star" data-value="4">⭐</span>
+                        <span class="star" data-value="5">⭐</span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-dark">Submit Review</button>
+            </form>
+        </div>
+        <!-- TBR Section and Footer remain unchanged -->
+    </div>
+
+    <footer class="footer bg-dark text-white mt-5 p-4 text-center">
+        <p>&copy; 2024 Book Reviews by [Your Name]. All rights reserved.</p>
+        <p>Contact: <a href="mailto:your.email@example.com" class="text-white">your.email@example.com</a></p>
+        <p>Follow us on social media:</p>
+        <p>
+            <a href="#" class="text-white mr-3">Twitter</a>
+            <a href="#" class="text-white mr-3">Instagram</a>
+            <a href="#" class="text-white">Facebook</a>
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let selectedSpiciness = 0;
+            let selectedRating = 0;
+
+            document.querySelectorAll('.chili').forEach(chili => {
+                chili.addEventListener('click', function() {
+                    selectedSpiciness = this.getAttribute('data-value');
+                    document.querySelectorAll('.chili').forEach(c => c.classList.remove('selected'));
+                    for (let i = 0; i < selectedSpiciness; i++) {
+                        document.querySelectorAll('.chili')[i].classList.add('selected');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function() {
+                    selectedRating = this.getAttribute('data-value');
+                    document.querySelectorAll('.star').forEach(s => s.classList.remove('selected'));
+                    for (let i = 0; i < selectedRating; i++) {
+                        document.querySelectorAll('.star')[i].classList.add('selected');
+                    }
+                });
+            });
+
+            document.getElementById('review-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+                const coverInput = document.getElementById('cover');
+                let coverURL = '';
+
+                if (coverInput.files.length > 0) {
+                    const file = coverInput.files[0];
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        coverURL = reader.result;
+                        saveReview(coverURL);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    saveReview('');
+                }
+
+                function saveReview(cover) {
+                    const review = {
+                        title: document.getElementById('title').value,
+                        author: document.getElementById('author').value,
+                        pages: document.getElementById('pages').value,
+                        summary: document.getElementById('summary').value,
+                        thoughts: document.getElementById('thoughts').value,
+                        quotes: document.getElementById('quotes').value,
+                        spiciness: selectedSpiciness,
+                        rating: selectedRating,
+                        cover: cover,
+                    };
+
+                    reviews.push(review);
+                    localStorage.setItem('reviews', JSON.stringify(reviews));
+                    alert('Review saved successfully!');
+                    document.getElementById('review-form').reset();
+                    document.querySelectorAll('.chili, .star').forEach(item => item.classList.remove('selected'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
