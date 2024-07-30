@@ -30,6 +30,11 @@
         <div class="reviews-list" id="reviews-list">
             <!-- Reviews will be populated here -->
         </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- Pagination items will be added here -->
+            </ul>
+        </nav>
     </div>
 
     <footer class="footer bg-dark text-white mt-5 p-4 text-center">
@@ -46,26 +51,57 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const reviewsList = document.getElementById('reviews-list');
+            const pagination = document.getElementById('pagination');
+            const reviewsPerPage = 5;
+            let currentPage = 1;
+
             const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
 
-            reviews.forEach(review => {
-                const reviewItem = document.createElement('div');
-                reviewItem.className = 'review-item p-4 mb-4';
+            function displayReviews(reviews, page = 1) {
+                reviewsList.innerHTML = '';
+                const start = (page - 1) * reviewsPerPage;
+                const end = page * reviewsPerPage;
+                const paginatedReviews = reviews.slice(start, end);
 
-                reviewItem.innerHTML = `
-                    <h3>${review.title}</h3>
-                    <p><strong>Author:</strong> ${review.author}</p>
-                    <p><strong>Number of Pages:</strong> ${review.pages}</p>
-                    <p><strong>Summary:</strong> ${review.summary}</p>
-                    <p><strong>Personal Thoughts:</strong> ${review.thoughts}</p>
-                    <p><strong>Favorite Quotes:</strong> ${review.quotes}</p>
-                    <p><strong>Spiciness:</strong> ${'🌶️'.repeat(review.spiciness)}</p>
-                    <p><strong>Rating:</strong> ${'⭐'.repeat(review.rating)}</p>
-                    <p><strong>Book Cover:</strong> ${review.cover ? `<img src="${review.cover}" alt="Book Cover" style="max-width: 100px;">` : 'No cover image provided'}</p>
-                `;
+                paginatedReviews.forEach(review => {
+                    const reviewItem = document.createElement('div');
+                    reviewItem.className = 'review-item p-4 mb-4';
 
-                reviewsList.appendChild(reviewItem);
-            });
+                    reviewItem.innerHTML = `
+                        <h3>${review.title}</h3>
+                        <p><strong>Author:</strong> ${review.author}</p>
+                        <p><strong>Number of Pages:</strong> ${review.pages}</p>
+                        <p><strong>Summary:</strong> ${review.summary}</p>
+                        <p><strong>Personal Thoughts:</strong> ${review.thoughts}</p>
+                        <p><strong>Favorite Quotes:</strong> ${review.quotes}</p>
+                        <p><strong>Spiciness:</strong> ${'🌶️'.repeat(review.spiciness)}</p>
+                        <p><strong>Rating:</strong> ${'⭐'.repeat(review.rating)}</p>
+                        <p><strong>Book Cover:</strong> ${review.cover ? `<img src="${review.cover}" alt="Book Cover" style="max-width: 100px;">` : 'No cover image provided'}</p>
+                    `;
+
+                    reviewsList.appendChild(reviewItem);
+                });
+            }
+
+            function setupPagination(reviews) {
+                pagination.innerHTML = '';
+                const pageCount = Math.ceil(reviews.length / reviewsPerPage);
+                for (let i = 1; i <= pageCount; i++) {
+                    const pageItem = document.createElement('li');
+                    pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                    pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                    pageItem.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        currentPage = i;
+                        displayReviews(reviews, currentPage);
+                        setupPagination(reviews);
+                    });
+                    pagination.appendChild(pageItem);
+                }
+            }
+
+            displayReviews(reviews, currentPage);
+            setupPagination(reviews);
         });
     </script>
 </body>
