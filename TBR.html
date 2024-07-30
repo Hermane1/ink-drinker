@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBR List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Book Reviews</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html#tbr">TBR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="reviews.html">Reviews</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5 mb-5">
+        <h1 class="text-center mb-4">My To-Be-Read List</h1>
+        <div class="row" id="tbr-list">
+            <!-- TBR Books will be populated here -->
+        </div>
+    </div>
+
+    <footer class="footer bg-dark text-white mt-5 p-4 text-center">
+        <p>&copy; 2024 Book Reviews by [Your Name]. All rights reserved.</p>
+        <p>Contact: <a href="mailto:your.email@example.com" class="text-white">your.email@example.com</a></p>
+        <p>Follow us on social media:</p>
+        <p>
+            <a href="#" class="text-white mr-3">Twitter</a>
+            <a href="#" class="text-white mr-3">Instagram</a>
+            <a href="#" class="text-white">Facebook</a>
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tbrList = document.getElementById('tbr-list');
+
+            const tbrBooks = JSON.parse(localStorage.getItem('tbrBooks')) || [];
+
+            function displayTbrBooks(books) {
+                tbrList.innerHTML = '';
+                books.forEach(book => {
+                    const bookItem = document.createElement('div');
+                    bookItem.className = 'col-md-4 mb-4';
+
+                    bookItem.innerHTML = `
+                        <div class="card">
+                            <img src="${book.cover}" class="card-img-top" alt="Book Cover">
+                            <div class="card-body">
+                                <h5 class="card-title">${book.title}</h5>
+                                <p class="card-text"><strong>Author:</strong> ${book.author}</p>
+                                <p class="card-text"><strong>Number of Pages:</strong> ${book.pages}</p>
+                                <p class="card-text"><strong>Summary:</strong> ${book.summary}</p>
+                            </div>
+                        </div>
+                    `;
+
+                    tbrList.appendChild(bookItem);
+                });
+            }
+
+            displayTbrBooks(tbrBooks);
+        });
+    </script>
+</body>
+</html>
