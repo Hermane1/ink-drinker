@@ -1,3 +1,34 @@
+/* General styles for chili peppers and stars */
+.rating span {
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+}
+
+/* Hover effect for chili peppers and stars */
+.rating span:hover {
+    transform: scale(1.3);
+}
+
+/* Active state for chili peppers */
+.chili.selected {
+    color: #d9534f; /* Classic red for selected rating */
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+}
+
+/* Active state for stars */
+.star.selected {
+    color: #f7c6c7; /* Soft pink for selected rating */
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+}
+
+/* Additional styles for star rating */
+.star {
+    color: #d3c7b3; /* Default color */
+}
+
 body {
     background-color: #2c2f33; /* Dark gray background */
     color: #d3c7b3; /* Soft beige text color */
@@ -39,20 +70,6 @@ h1, h2 {
 
 .card-text {
     color: #d3c7b3; /* Soft beige */
-}
-
-.rating span {
-    font-size: 1.5em;
-    cursor: pointer;
-    transition: transform 0.2s, color 0.2s;
-}
-
-.rating span:hover {
-    transform: scale(1.3);
-}
-
-.chili.selected, .star.selected {
-    color: #d9534f; /* Classic red for selected rating */
 }
 
 .btn-dark {
