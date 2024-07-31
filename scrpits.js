@@ -1,31 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Star rating system
     const stars = document.querySelectorAll('.star');
     
+    // Star rating functionality
     stars.forEach(star => {
         star.addEventListener('click', () => {
             stars.forEach(s => s.classList.remove('selected'));
             star.classList.add('selected');
+            console.log('Star selected:', star);
         });
     });
 
-    // Add to TBR button functionality
-    document.querySelectorAll('.tbr-btn-add').forEach(button => {
-        button.addEventListener('click', () => {
-            alert('Added to TBR!');
-            // Add functionality to actually add the book to the TBR list
-        });
-    });
-
-    // Remove from TBR button functionality
-    document.querySelectorAll('.tbr-btn-remove').forEach(button => {
-        button.addEventListener('click', () => {
-            alert('Removed from TBR!');
-            // Add functionality to actually remove the book from the TBR list
-        });
-    });
-
-    // Sample TBR data (this can be replaced with actual data storage)
+    // Sample TBR data
     let tbrList = [];
 
     // Elements
@@ -39,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveButton = document.getElementById('save-button');
     const closeModal = document.querySelector('.close');
 
-    let editIndex = -1; // Track the index of the book being edited
+    let editIndex = -1;
 
     // Function to render the TBR list
     function renderTBRList() {
@@ -87,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             bookCard.appendChild(bookBody);
             tbrSection.appendChild(bookCard);
         });
+        console.log('TBR List rendered:', tbrList);
     }
 
     // Function to open modal
@@ -131,13 +117,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to delete book from TBR list
+    // Function to delete book
     function deleteBook(index) {
         tbrList.splice(index, 1);
         renderTBRList();
     }
 
-    // Event listeners
+    // Function to add book to TBR
+    function addBookToTBR(bookTitle) {
+        const existingBook = tbrList.find(book => book.title === bookTitle);
+        if (!existingBook) {
+            tbrList.push({ title: bookTitle, author: 'Unknown', notes: '' });
+            renderTBRList();
+        } else {
+            alert('Book already in TBR list.');
+        }
+    }
+
+    // Function to remove book from TBR
+    function removeBookFromTBR(bookTitle) {
+        tbrList = tbrList.filter(book => book.title !== bookTitle);
+        renderTBRList();
+    }
+
+    // Event listeners for TBR buttons
+    document.querySelectorAll('.tbr-btn-add').forEach(button => {
+        button.addEventListener('click', () => {
+            alert('Added to TBR!');
+            const bookTitle = button.getAttribute('data-title'); // Example: Get book title from data attribute
+            addBookToTBR(bookTitle);
+        });
+    });
+
+    document.querySelectorAll('.tbr-btn-remove').forEach(button => {
+        button.addEventListener('click', () => {
+            alert('Removed from TBR!');
+            const bookTitle = button.getAttribute('data-title'); // Example: Get book title from data attribute
+            removeBookFromTBR(bookTitle);
+        });
+    });
+
+    // Event listeners for modal and save button
     addBookButton.addEventListener('click', () => openModal('add'));
     closeModal.addEventListener('click', closeModalFn);
     saveButton.addEventListener('click', saveBook);
