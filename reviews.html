@@ -3,9 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saved Book Reviews</title>
+    <title>Book Reviews - Dark Academia</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .review-item {
+            background-color: #35383c; /* Darker background for reviews */
+            border: 1px solid #45484d;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .review-item h5 {
+            color: #b89f7d; /* Antique gold */
+        }
+
+        .review-item p {
+            color: #d3c7b3; /* Soft beige */
+        }
+
+        .review-item .btn-danger {
+            background-color: #d9534f; /* Red for delete button */
+            border-color: #d9534f;
+        }
+
+        .review-item .btn-danger:hover {
+            background-color: #c9302c; /* Darker red on hover */
+            border-color: #c9302c;
+        }
+
+        .review-item img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,7 +50,7 @@
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html#tbr">TBR</a>
+                    <a class="nav-link" href="#tbr">TBR</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="reviews.html">Reviews</a>
@@ -26,15 +60,10 @@
     </nav>
 
     <div class="container mt-5 mb-5">
-        <h1 class="text-center mb-4">All Book Reviews</h1>
-        <div class="reviews-list" id="reviews-list">
-            <!-- Reviews will be populated here -->
+        <h1 class="text-center mb-4">Book Reviews</h1>
+        <div id="reviews-container">
+            <!-- Reviews will be dynamically loaded here -->
         </div>
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center" id="pagination">
-                <!-- Pagination items will be added here -->
-            </ul>
-        </nav>
     </div>
 
     <footer class="footer bg-dark text-white mt-5 p-4 text-center">
@@ -50,58 +79,47 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const reviewsList = document.getElementById('reviews-list');
-            const pagination = document.getElementById('pagination');
-            const reviewsPerPage = 5;
-            let currentPage = 1;
+            const reviewsContainer = document.getElementById('reviews-container');
+            let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
 
-            const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            function displayReviews() {
+                reviewsContainer.innerHTML = ''; // Clear existing reviews
+                reviews.forEach((review, index) => {
+                    const reviewElement = document.createElement('div');
+                    reviewElement.classList.add('review-item');
 
-            function displayReviews(reviews, page = 1) {
-                reviewsList.innerHTML = '';
-                const start = (page - 1) * reviewsPerPage;
-                const end = page * reviewsPerPage;
-                const paginatedReviews = reviews.slice(start, end);
+                    let coverHTML = '';
+                    if (review.cover) {
+                        coverHTML = `<img src="${review.cover}" alt="Book Cover">`;
+                    }
 
-                paginatedReviews.forEach(review => {
-                    const reviewItem = document.createElement('div');
-                    reviewItem.className = 'review-item p-4 mb-4';
-
-                    reviewItem.innerHTML = `
-                        <h3>${review.title}</h3>
+                    reviewElement.innerHTML = `
+                        ${coverHTML}
+                        <h5>${review.title}</h5>
                         <p><strong>Author:</strong> ${review.author}</p>
-                        <p><strong>Number of Pages:</strong> ${review.pages}</p>
+                        <p><strong>Pages:</strong> ${review.pages}</p>
                         <p><strong>Summary:</strong> ${review.summary}</p>
-                        <p><strong>Personal Thoughts:</strong> ${review.thoughts}</p>
-                        <p><strong>Favorite Quotes:</strong> ${review.quotes}</p>
-                        <p><strong>Spiciness:</strong> ${'🌶️'.repeat(review.spiciness)}</p>
-                        <p><strong>Rating:</strong> ${'⭐'.repeat(review.rating)}</p>
-                        <p><strong>Book Cover:</strong> ${review.cover ? `<img src="${review.cover}" alt="Book Cover" style="max-width: 100px;">` : 'No cover image provided'}</p>
+                        <p><strong>Thoughts:</strong> ${review.thoughts}</p>
+                        <p><strong>Quotes:</strong> ${review.quotes}</p>
+                        <p><strong>Spiciness (Chili Peppers):</strong> ${'🌶️'.repeat(review.spiciness)}</p>
+                        <p><strong>Rating (Stars):</strong> ${'⭐'.repeat(review.rating)}</p>
+                        <button class="btn btn-danger" data-index="${index}">Delete</button>
                     `;
+                    reviewsContainer.appendChild(reviewElement);
+                });
 
-                    reviewsList.appendChild(reviewItem);
+                // Attach delete event listeners
+                document.querySelectorAll('.btn-danger').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        reviews.splice(index, 1); // Remove review from array
+                        localStorage.setItem('reviews', JSON.stringify(reviews)); // Update local storage
+                        displayReviews(); // Refresh the displayed reviews
+                    });
                 });
             }
 
-            function setupPagination(reviews) {
-                pagination.innerHTML = '';
-                const pageCount = Math.ceil(reviews.length / reviewsPerPage);
-                for (let i = 1; i <= pageCount; i++) {
-                    const pageItem = document.createElement('li');
-                    pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                    pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-                    pageItem.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        currentPage = i;
-                        displayReviews(reviews, currentPage);
-                        setupPagination(reviews);
-                    });
-                    pagination.appendChild(pageItem);
-                }
-            }
-
-            displayReviews(reviews, currentPage);
-            setupPagination(reviews);
+            displayReviews(); // Initial call to display reviews
         });
     </script>
 </body>
