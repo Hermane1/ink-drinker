@@ -31,45 +31,56 @@ document.addEventListener('DOMContentLoaded', () => {
         tbrSection.innerHTML = '';
         tbrList.forEach((book, index) => {
             const bookCard = document.createElement('div');
-            bookCard.className = 'tbr-card';
+            bookCard.className = 'col-md-3 mb-4'; // Adjusted for Bootstrap layout
 
-            const bookBody = document.createElement('div');
-            bookBody.className = 'tbr-card-body';
+            const card = document.createElement('div');
+            card.className = 'card'; // Bootstrap card class
 
-            const bookTitle = document.createElement('h3');
-            bookTitle.className = 'tbr-card-title';
+            const bookImg = document.createElement('img');
+            bookImg.className = 'card-img-top';
+            bookImg.src = 'https://via.placeholder.com/150'; // Placeholder image
+            bookImg.alt = 'Book Cover';
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            const bookTitle = document.createElement('h5');
+            bookTitle.className = 'card-title';
             bookTitle.textContent = book.title;
 
             const bookAuthor = document.createElement('p');
-            bookAuthor.className = 'tbr-card-text';
+            bookAuthor.className = 'card-text';
             bookAuthor.textContent = `Author: ${book.author}`;
 
             const bookNotes = document.createElement('p');
-            bookNotes.className = 'tbr-card-text';
+            bookNotes.className = 'card-text';
             bookNotes.textContent = `Notes: ${book.notes}`;
 
             const buttonGroup = document.createElement('div');
             buttonGroup.className = 'btn-group';
 
             const editButton = document.createElement('button');
-            editButton.className = 'btn-edit';
+            editButton.className = 'btn btn-warning';
             editButton.textContent = 'Edit';
             editButton.onclick = () => openModal('edit', index);
 
             const deleteButton = document.createElement('button');
-            deleteButton.className = 'btn-delete';
+            deleteButton.className = 'btn btn-danger';
             deleteButton.textContent = 'Delete';
             deleteButton.onclick = () => deleteBook(index);
 
             buttonGroup.appendChild(editButton);
             buttonGroup.appendChild(deleteButton);
 
-            bookBody.appendChild(bookTitle);
-            bookBody.appendChild(bookAuthor);
-            bookBody.appendChild(bookNotes);
-            bookBody.appendChild(buttonGroup);
+            cardBody.appendChild(bookTitle);
+            cardBody.appendChild(bookAuthor);
+            cardBody.appendChild(bookNotes);
+            cardBody.appendChild(buttonGroup);
 
-            bookCard.appendChild(bookBody);
+            card.appendChild(bookImg);
+            card.appendChild(cardBody);
+
+            bookCard.appendChild(card);
             tbrSection.appendChild(bookCard);
         });
         console.log('TBR List rendered:', tbrList);
@@ -122,40 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
         tbrList.splice(index, 1);
         renderTBRList();
     }
-
-    // Function to add book to TBR
-    function addBookToTBR(bookTitle) {
-        const existingBook = tbrList.find(book => book.title === bookTitle);
-        if (!existingBook) {
-            tbrList.push({ title: bookTitle, author: 'Unknown', notes: '' });
-            renderTBRList();
-        } else {
-            alert('Book already in TBR list.');
-        }
-    }
-
-    // Function to remove book from TBR
-    function removeBookFromTBR(bookTitle) {
-        tbrList = tbrList.filter(book => book.title !== bookTitle);
-        renderTBRList();
-    }
-
-    // Event listeners for TBR buttons
-    document.querySelectorAll('.tbr-btn-add').forEach(button => {
-        button.addEventListener('click', () => {
-            alert('Added to TBR!');
-            const bookTitle = button.getAttribute('data-title'); // Example: Get book title from data attribute
-            addBookToTBR(bookTitle);
-        });
-    });
-
-    document.querySelectorAll('.tbr-btn-remove').forEach(button => {
-        button.addEventListener('click', () => {
-            alert('Removed from TBR!');
-            const bookTitle = button.getAttribute('data-title'); // Example: Get book title from data attribute
-            removeBookFromTBR(bookTitle);
-        });
-    });
 
     // Event listeners for modal and save button
     addBookButton.addEventListener('click', () => openModal('add'));
