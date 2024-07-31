@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const stars = document.querySelectorAll('.star');
     
     // Star rating functionality
-    stars.forEach(star => {
+    stars.forEach((star, index) => {
         star.addEventListener('click', () => {
             stars.forEach(s => s.classList.remove('selected'));
             star.classList.add('selected');
-            console.log('Star selected:', star);
+            console.log('Star selected:', index + 1); // Log star index
         });
     });
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bookAuthorInput = document.getElementById('book-author');
     const bookNotesInput = document.getElementById('book-notes');
     const saveButton = document.getElementById('save-button');
-    const closeModal = document.querySelector('.close');
+    const closeModalButton = document.querySelector('.close'); // Renamed for clarity
 
     let editIndex = -1;
 
@@ -31,14 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
         tbrSection.innerHTML = '';
         tbrList.forEach((book, index) => {
             const bookCard = document.createElement('div');
-            bookCard.className = 'col-md-3 mb-4'; // Adjusted for Bootstrap layout
+            bookCard.className = 'col-md-3 mb-4';
 
             const card = document.createElement('div');
-            card.className = 'card'; // Bootstrap card class
+            card.className = 'card';
 
             const bookImg = document.createElement('img');
             bookImg.className = 'card-img-top';
-            bookImg.src = 'https://via.placeholder.com/150'; // Placeholder image
+            bookImg.src = 'https://via.placeholder.com/150';
             bookImg.alt = 'Book Cover';
 
             const cardBody = document.createElement('div');
@@ -62,12 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const editButton = document.createElement('button');
             editButton.className = 'btn btn-warning';
             editButton.textContent = 'Edit';
-            editButton.onclick = () => openModal('edit', index);
+            editButton.addEventListener('click', () => openModal('edit', index));
 
             const deleteButton = document.createElement('button');
             deleteButton.className = 'btn btn-danger';
             deleteButton.textContent = 'Delete';
-            deleteButton.onclick = () => deleteBook(index);
+            deleteButton.addEventListener('click', () => deleteBook(index));
 
             buttonGroup.appendChild(editButton);
             buttonGroup.appendChild(deleteButton);
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listeners for modal and save button
     addBookButton.addEventListener('click', () => openModal('add'));
-    closeModal.addEventListener('click', closeModalFn);
+    closeModalButton.addEventListener('click', closeModalFn);
     saveButton.addEventListener('click', saveBook);
 
     // Initial render of TBR list
