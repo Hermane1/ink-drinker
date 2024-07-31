@@ -3,9 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TBR List</title>
+    <title>TBR - Book Reviews</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .tbr-section {
+            background-color: #35383c; /* Darker background */
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .tbr-card {
+            background-color: #2c2f33; /* Darker background for cards */
+            border: 1px solid #45484d;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .tbr-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .tbr-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .tbr-card-body {
+            padding: 15px;
+            color: #d3c7b3; /* Soft beige text color */
+        }
+
+        .tbr-card-title {
+            font-size: 1.25em;
+            color: #b89f7d; /* Antique gold */
+        }
+
+        .tbr-card-text {
+            font-size: 1em;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,7 +56,7 @@
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html#tbr">TBR</a>
+                    <a class="nav-link" href="#tbr">TBR</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="reviews.html">Reviews</a>
@@ -26,9 +66,29 @@
     </nav>
 
     <div class="container mt-5 mb-5">
-        <h1 class="text-center mb-4">My To-Be-Read List</h1>
-        <div class="row" id="tbr-list">
-            <!-- TBR Books will be populated here -->
+        <h1 class="text-center mb-4">To Be Read (TBR)</h1>
+        <div class="tbr-section">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="tbr-card">
+                        <img src="https://example.com/cover1.jpg" alt="Book Cover">
+                        <div class="tbr-card-body">
+                            <h5 class="tbr-card-title">Book Title 1</h5>
+                            <p class="tbr-card-text">Author: Author Name</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tbr-card">
+                        <img src="https://example.com/cover2.jpg" alt="Book Cover">
+                        <div class="tbr-card-body">
+                            <h5 class="tbr-card-title">Book Title 2</h5>
+                            <p class="tbr-card-text">Author: Author Name</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more cards as needed -->
+            </div>
         </div>
     </div>
 
@@ -42,37 +102,5 @@
             <a href="#" class="text-white">Facebook</a>
         </p>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tbrList = document.getElementById('tbr-list');
-
-            const tbrBooks = JSON.parse(localStorage.getItem('tbrBooks')) || [];
-
-            function displayTbrBooks(books) {
-                tbrList.innerHTML = '';
-                books.forEach(book => {
-                    const bookItem = document.createElement('div');
-                    bookItem.className = 'col-md-4 mb-4';
-
-                    bookItem.innerHTML = `
-                        <div class="card">
-                            <img src="${book.cover}" class="card-img-top" alt="Book Cover">
-                            <div class="card-body">
-                                <h5 class="card-title">${book.title}</h5>
-                                <p class="card-text"><strong>Author:</strong> ${book.author}</p>
-                                <p class="card-text"><strong>Number of Pages:</strong> ${book.pages}</p>
-                                <p class="card-text"><strong>Summary:</strong> ${book.summary}</p>
-                            </div>
-                        </div>
-                    `;
-
-                    tbrList.appendChild(bookItem);
-                });
-            }
-
-            displayTbrBooks(tbrBooks);
-        });
-    </script>
 </body>
 </html>
