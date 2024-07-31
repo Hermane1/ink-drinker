@@ -1,3 +1,4 @@
+/* Base Styles */
 body {
     background-color: #2c2f33; /* Dark gray background */
     color: #d3c7b3; /* Soft beige text color */
@@ -12,72 +13,9 @@ h1, h2 {
     padding-bottom: 10px;
 }
 
-.review-form, .tbr-section {
-    background-color: #35383c; /* Darker background for form and TBR section */
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
-    border: 1px solid #45484d; /* Subtle border */
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-.card {
-    background-color: #35383c; /* Darker background for cards */
-    border: 1px solid #45484d;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
-}
-
-.card-img-top {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.card-title {
+label {
+    font-weight: bold;
     color: #b89f7d; /* Antique gold */
-}
-
-.card-text {
-    color: #d3c7b3; /* Soft beige */
-}
-
-.rating span {
-    font-size: 1.5em;
-    cursor: pointer;
-    transition: transform 0.2s, color 0.2s;
-}
-
-.rating span:hover {
-    transform: scale(1.3);
-}
-
-/* Active state for chili peppers */
-.chili.selected {
-    color: #d9534f; /* Classic red for selected rating */
-    transform: scale(1.2);
-    transition: transform 0.2s, color 0.2s;
-}
-
-/* Active state for stars */
-.star.selected {
-    color: #f7c6c7; /* Soft pink for selected rating */
-    transform: scale(1.2);
-    transition: transform 0.2s, color 0.2s;
-}
-
-/* Default state for stars */
-.star {
-    color: #d3c7b3; /* Default color */
-}
-
-.btn-dark {
-    background-color: #565a5e;
-    border-color: #4c4a4d;
-}
-
-.btn-dark:hover {
-    background-color: #4a494c;
-    border-color: #3e3c3f;
 }
 
 input[type="text"], input[type="number"], textarea {
@@ -92,11 +30,127 @@ input[type="file"] {
     color: #e0e0e0;
 }
 
-label {
-    font-weight: bold;
+/* Forms and Sections */
+.review-form, .tbr-section {
+    background-color: #35383c; /* Darker background for form and TBR section */
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+    border: 1px solid #45484d; /* Subtle border */
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.tbr-section {
+    padding: 30px;
+    border-radius: 10px;
+}
+
+/* Cards */
+.card, .tbr-card {
+    background-color: #35383c; /* Darker background for cards */
+    border: 1px solid #45484d;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+.tbr-card {
+    background-color: #2c2f33; /* Darker background for TBR cards */
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tbr-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.card-img-top, .tbr-card img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    height: auto;
+}
+
+.card-title, .tbr-card-title {
     color: #b89f7d; /* Antique gold */
 }
 
+.card-text, .tbr-card-text {
+    color: #d3c7b3; /* Soft beige */
+}
+
+/* Rating */
+.rating span {
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.rating span:hover {
+    transform: scale(1.3);
+}
+
+.chili.selected {
+    color: #d9534f; /* Classic red for selected rating */
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+}
+
+.star.selected {
+    color: #f7c6c7; /* Soft pink for selected rating */
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+}
+
+.star {
+    color: #d3c7b3; /* Default color */
+}
+
+/* Buttons */
+.btn-group {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-top: 10px;
+}
+
+.btn-edit {
+    color: #fff;
+    background-color: #f0ad4e; /* Bootstrap warning color */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.btn-edit:hover {
+    background-color: #ec971f; /* Darker warning color on hover */
+}
+
+.btn-delete {
+    color: #fff;
+    background-color: #d9534f; /* Bootstrap danger color */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: #c9302c; /* Darker danger color on hover */
+}
+
+.btn-dark {
+    background-color: #565a5e;
+    border-color: #4c4a4d;
+}
+
+.btn-dark:hover {
+    background-color: #4a494c;
+    border-color: #3e3c3f;
+}
+
+/* Footer */
 .footer {
     background-color: #2c2f33;
     border-top: 1px solid #4c4a4d;
@@ -113,12 +167,7 @@ label {
     text-decoration: underline;
 }
 
-.selected {
-    opacity: 0.7;
-    transform: scale(1.1);
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
+/* Pagination */
 .pagination .page-item.active .page-link {
     background-color: #b89f7d;
     border-color: #b89f7d;
@@ -134,15 +183,16 @@ label {
     border-color: #d9534f;
 }
 
-/* TBR Section Styles */
-.tbr-section {
-    background-color: #35383c; /* Darker background */
-    padding: 30px;
-    border-radius: 10px;
+/* Interactive Styles */
+.selected {
+    opacity: 0.7;
+    transform: scale(1.1);
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
+/* TBR Section Styles */
 .tbr-card {
-    background-color: #2c2f33; /* Darker background for cards */
+    background-color: #2c2f33; /* Darker background for TBR cards */
     border: 1px solid #45484d;
     border-radius: 10px;
     overflow: hidden;
