@@ -94,13 +94,11 @@ input[type="file"] {
 .chili.selected {
     color: #d9534f; /* Classic red for selected rating */
     transform: scale(1.2);
-    transition: transform 0.2s, color 0.2s;
 }
 
 .star.selected {
     color: #f7c6c7; /* Soft pink for selected rating */
     transform: scale(1.2);
-    transition: transform 0.2s, color 0.2s;
 }
 
 .star {
@@ -108,6 +106,21 @@ input[type="file"] {
 }
 
 /* Buttons */
+button {
+    background-color: #b89f7d;
+    color: #2c2f33;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #b89f7d;
+    color: #2c2f33;
+}
+
 .btn-group {
     display: flex;
     gap: 10px; /* Space between buttons */
@@ -148,6 +161,19 @@ input[type="file"] {
 .btn-dark:hover {
     background-color: #4a494c;
     border-color: #3e3c3f;
+}
+
+/* Navbar */
+.navbar {
+    margin-bottom: 20px;
+}
+
+.nav-link {
+    color: #b89f7d;
+}
+
+.nav-link:hover {
+    color: #f5e6cc;
 }
 
 /* Footer */
